@@ -127,6 +127,10 @@ void list_delete(struct List *list)
 // (An IndexError would correspond to a return value of 0)
 int list_remove(struct List *list, int index)
 {
+    if (list_get(list, index) == 0)
+        return 0;
+    else
+        return 1;
 }
 
 // Return the value of the first element. The first element is removed from the list. If the

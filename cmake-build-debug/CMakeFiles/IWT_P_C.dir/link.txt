@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/IWT_P_C.dir/list.c.o CMakeFiles/IWT_P_C.dir/main.c.o  -o IWT_P_C 

@@ -127,10 +127,18 @@ void list_delete(struct List *list)
 // (An IndexError would correspond to a return value of 0)
 int list_remove(struct List *list, int index)
 {
-    if (list_get(list, index) == 0)
-        return 0;
-    else
-        return 1;
+    struct ListNode *current = list->first;
+    struct ListNode *previous = NULL;
+    // Go to node to be deleted and keep track of the previous node
+    int i;
+    for (i = 0, i < index, i++){
+        previous = current;
+        current = current->next;
+    }
+    // Unlink the node te be deleted by setting the pointer of the previous node to the node after the one te be deleted
+    previous->next = current->next;
+
+
 }
 
 // Return the value of the first element. The first element is removed from the list. If the

@@ -125,21 +125,39 @@ void list_delete(struct List *list)
 //
 // Python: del list[i]
 // (An IndexError would correspond to a return value of 0)
+//TODO Implement first and last case scenario
 int list_remove(struct List *list, int index)
 {
-    if (index >= list_length(list))
-        return 0;
     struct ListNode *current = list->first;
     struct ListNode *previous = NULL;
+
+    if (index >= list_length(list) || index < 0){
+        return 0;
+    }
+    if(index == 0) {
+        list->first = current->next;
+        return 1;
+    }
+
     // Go to node to be deleted and keep track of the previous node
     int i;
     for (i = 0; i < index; i++){
         previous = current;
         current = current->next;
     }
-    // Unlink the node te be deleted by setting the pointer of the previous node to the node after the one te be deleted
-    previous->next = current->next;
-    return 1;
+    // Unlink the node te be deleted by freeing the allocated memory and
+    // setting the pointer of the previous node to the node after the one te be deleted.
+    // If the last node has to be deleted we set the pointer of the previous node to NULL.
+    free(previous->next);
+
+    if (index == list_length(list)-1) {
+        previous->next = NULL
+        return 1;
+    }
+    else {
+        previous->next = current->next;
+        return 1;
+    }
 
 
 }

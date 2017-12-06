@@ -179,7 +179,7 @@ int list_pop(struct List *list, int *error)
     free(list->first);
     list->first = current->next;
     *error = 0;
-    return val
+    return val;
 }
 
 // Prepend the value to the front of the list.

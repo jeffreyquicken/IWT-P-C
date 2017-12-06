@@ -135,6 +135,7 @@ int list_remove(struct List *list, int index)
         return 0;
     }
     if(index == 0) {
+        free(list->first);
         list->first = current->next;
         return 1;
     }
@@ -170,6 +171,15 @@ int list_remove(struct List *list, int index)
 // (An IndexError would correspond to a return value of 0)
 int list_pop(struct List *list, int *error)
 {
+    if (list->first == NULL){
+        *error = 1;
+    }
+    int val = list->first->value;
+    struct ListNode *current = list->first;
+    free(list->first);
+    list->first = current->next;
+    *error = 0;
+    return val
 }
 
 // Prepend the value to the front of the list.

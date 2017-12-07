@@ -125,7 +125,6 @@ void list_delete(struct List *list)
 //
 // Python: del list[i]
 // (An IndexError would correspond to a return value of 0)
-//TODO Implement first and last case scenario
 int list_remove(struct List *list, int index)
 {
     struct ListNode *current = list->first;
@@ -197,6 +196,27 @@ void list_prepend(struct List *list, int value)
 // (Note that the behavior for negative indices differs slightly in Python)
 void list_insert(struct List *list, int index, int value)
 {
+    if(index <= 0){
+        list_prepend(list, value);
+    }
+    if(index > list_length(list)){
+        list_append(list, value);
+    }
+    else{
+        struct ListNode *current = list->first;
+        struct ListNode *previous = NULL;
+        struct ListNode *new;
+        new->value = value;
+
+        int i;
+        for (i = 0; i < index; i++){
+            previous = current;
+            current = current->next;
+        }
+        previous->next = new;
+        new->next = current;
+    }
+
 }
 
 

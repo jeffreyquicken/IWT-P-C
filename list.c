@@ -369,7 +369,7 @@ int dlist_remove(struct DList *dlist, int index)
     struct DListNode *current = dlist->first;
     struct DListNode *previous = NULL;
 
-    if (index >= list_length(dlist) || index < 0){
+    if (index >= dlist_length(dlist) || index < 0){
         return 0;
     }
     if(index == 0) {
@@ -390,7 +390,7 @@ int dlist_remove(struct DList *dlist, int index)
     // If the last node has to be deleted we set the pointer of the previous node to NULL.
     free(previous->next);
 
-    if (index == list_length(dlist)-1) {
+    if (index == dlist_length(dlist)-1) {
         previous->next = NULL;
         dlist->length -=1;
         return 1;

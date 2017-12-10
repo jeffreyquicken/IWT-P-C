@@ -308,6 +308,16 @@ void dlist_print_reverse(struct DList *dlist)
 // Python: length = len(list)
 int dlist_length(struct DList *dlist)
 {
+    int length = 0;
+    struct DListNode *current = dlist->first;
+
+    while (current != NULL)
+    {
+        length++;
+        current = current->next;
+    }
+    dlist->length = length;
+    return length;
 }
 
 
@@ -319,6 +329,18 @@ int dlist_length(struct DList *dlist)
 // (An IndexError would correspond to a return value of 0)
 int dlist_get(struct DList *list, int index, int *error)
 {
+    struct DListNode *current = list->first;
+
+    if (index < 0 || index >= dlist_length(list)) {
+        *error = 1;
+        return 0;
+    }
+
+    for (int i = 0; i < index; i++)
+        current = current->next;
+
+    *error = 0;
+    return current->value;
 }
 
 // Append the given value to the given list
@@ -326,6 +348,14 @@ int dlist_get(struct DList *list, int index, int *error)
 // Python: list.append(value)
 void dlist_append(struct DList *dlist, int value)
 {
+    struct DListNode *new;
+    struct DListNode *previous;
+    new->value = value;
+    previous = dlist->last;
+    dlist->last = new;
+    previous->next = new;
+    new->prev = previous;
+    dlist->length +=1;
 }
 
 
@@ -336,6 +366,41 @@ void dlist_append(struct DList *dlist, int value)
 // (An IndexError would correspond to a return value of 0)
 int dlist_remove(struct DList *dlist, int index)
 {
+    struct DListNode *current = dlist->first;
+    struct DListNode *previous = NULL;
+
+    if (index >= list_length(dlist) || index < 0){
+        return 0;
+    }
+    if(index == 0) {
+        free(dlist->first);
+        dlist->first = current->next;
+        dlist->length -=1;
+        return 1;
+    }
+
+    // Go to node to be deleted and keep track of the previous node
+    int i;
+    for (i = 0; i < index; i++){
+        previous = current;
+        current = current->next;
+    }
+    // Unlink the node te be deleted by freeing the allocated memory and
+    // setting the pointer of the previous node to the node after the one te be deleted.
+    // If the last node has to be deleted we set the pointer of the previous node to NULL.
+    free(previous->next);
+
+    if (index == list_length(dlist)-1) {
+        previous->next = NULL;
+        dlist->length -=1;
+        return 1;
+    }
+    else {
+        previous->next = current->next;
+        current->next->prev = previous;
+        dlist->length -=1;
+        return 1;
+    }
 }
 
 

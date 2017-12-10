@@ -189,7 +189,7 @@ void list_prepend(struct List *list, int value)
     struct ListNode *new;
     struct ListNode *previous;
     new->value = value;
-    previous = list->first->next;
+    previous = list->first;
     list->first = new;
     new->next = previous;
 }
@@ -285,7 +285,22 @@ void dlist_delete(struct DList *dlist)
 // Python: print(list[::-1])
 void dlist_print_reverse(struct DList *dlist)
 {
+    printf("[");
 
+    struct DListNode *current = dlist->last;
+
+    while (current != NULL)
+    {
+        printf("%d", current->value);
+
+        // no comma after last value
+        if (current->prev != NULL)
+            printf(", ");
+
+        current = current->prev;
+    }
+
+    printf("]\n");
 }
 
 // Return the length of the given list (i.e., the number of values in it)

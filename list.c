@@ -151,7 +151,7 @@ int list_remove(struct List *list, int index)
     free(previous->next);
 
     if (index == list_length(list)-1) {
-        previous->next = NULL
+        previous->next = NULL;
         return 1;
     }
     else {
@@ -186,6 +186,12 @@ int list_pop(struct List *list, int *error)
 // Python: list.insert(0, value)
 void list_prepend(struct List *list, int value)
 {
+    struct ListNode *new;
+    struct ListNode *previous;
+    new->value = value;
+    previous = list->first->next;
+    list->first = new;
+    new->next = previous;
 }
 
 // Insert the element before the given index in the list. A negative index
@@ -279,6 +285,7 @@ void dlist_delete(struct DList *dlist)
 // Python: print(list[::-1])
 void dlist_print_reverse(struct DList *dlist)
 {
+
 }
 
 // Return the length of the given list (i.e., the number of values in it)

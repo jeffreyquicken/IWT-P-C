@@ -411,11 +411,19 @@ int dlist_remove(struct DList *dlist, int index)
 // Create an empty stack
 struct Stack * stack_create()
 {
+    struct Stack *stack = malloc(sizeof(struct Stack));
+    stack->top = NULL;
+    return stack;
 }
 
 // Push a new string on the stack
 void stack_push(struct Stack* stack, const char *string)
 {
+    struct StackNode *node = malloc(sizeof(struct StackNode));
+    node->string= malloc(strlen(string)+1);
+    strcpy(node->string, string);
+    node->next = NULL;
+    stack->top = node;
 }
 
 // Return the first string on the stack. The caller is responsible for freeing
@@ -423,6 +431,15 @@ void stack_push(struct Stack* stack, const char *string)
 // empty, the function returns NULL.
 char * stack_pop(struct Stack *stack)
 {
+    if (stack_isempty(stack) == 1){
+        return NULL
+    }
+    struct StackNode *node = stack->top;
+    char *val = malloc(strlen(node->string)+1);
+    strcpy(val, node->string);
+    stack->top = node->next;
+    free(node);
+    return val;
 }
 
 // Returns 1 if the stack is empty (i.e. there are no elements to pop).

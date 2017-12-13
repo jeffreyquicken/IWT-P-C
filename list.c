@@ -134,8 +134,8 @@ int list_remove(struct List *list, int index)
         return 0;
     }
     if(index == 0) {
-        free(list->first);
         list->first = current->next;
+        free(current);
         return 1;
     }
 
@@ -148,14 +148,15 @@ int list_remove(struct List *list, int index)
     // Unlink the node te be deleted by freeing the allocated memory and
     // setting the pointer of the previous node to the node after the one te be deleted.
     // If the last node has to be deleted we set the pointer of the previous node to NULL.
-    free(previous->next);
 
     if (index == list_length(list)-1) {
         previous->next = NULL;
+        free(current);
         return 1;
     }
     else {
         previous->next = current->next;
+        free(current);
         return 1;
     }
 
@@ -175,8 +176,8 @@ int list_pop(struct List *list, int *error)
     }
     int val = list->first->value;
     struct ListNode *current = list->first;
-    free(list->first);
     list->first = current->next;
+    free(current);
     *error = 0;
     return val;
 }
@@ -373,8 +374,8 @@ int dlist_remove(struct DList *dlist, int index)
         return 0;
     }
     if(index == 0) {
-        free(dlist->first);
         dlist->first = current->next;
+        free(current);
         dlist->length -=1;
         return 1;
     }
@@ -388,16 +389,17 @@ int dlist_remove(struct DList *dlist, int index)
     // Unlink the node te be deleted by freeing the allocated memory and
     // setting the pointer of the previous node to the node after the one te be deleted.
     // If the last node has to be deleted we set the pointer of the previous node to NULL.
-    free(previous->next);
 
     if (index == dlist_length(dlist)-1) {
         previous->next = NULL;
+        free(current);
         dlist->length -=1;
         return 1;
     }
     else {
         previous->next = current->next;
         current->next->prev = previous;
+        free(current);
         dlist->length -=1;
         return 1;
     }

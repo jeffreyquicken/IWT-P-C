@@ -422,21 +422,34 @@ void stack_push(struct Stack* stack, const char *string)
     struct StackNode *node = malloc(sizeof(struct StackNode));
     node->string= malloc(strlen(string)+1);
     strcpy(node->string, string);
-    node->next = NULL;
-    stack->top = node;
-}
+    if(stack_isempty(stack)){
+
+        node->next = NULL;
+        stack->top = node;
+    }
+    else{
+        node->next = stack->top;
+        stack->top = node;
+    }
+    }
+
 
 // Return the first string on the stack. The caller is responsible for freeing
 // the returned string. The string is removed from the stack. If the stack is
 // empty, the function returns NULL.
 char * stack_pop(struct Stack *stack)
 {
-    if (stack_isempty(stack) == 1){
-        return NULL
-    }
     struct StackNode *node = stack->top;
     char *val = malloc(strlen(node->string)+1);
     strcpy(val, node->string);
+    if (stack_isempty(stack) == 1){
+        return NULL;
+    }
+    if (stack->top->next == NULL){
+        stack->top = NULL;
+        free(node);
+        return val;
+    }
     stack->top = node->next;
     free(node);
     return val;
@@ -446,16 +459,41 @@ char * stack_pop(struct Stack *stack)
 // Otherwise it returns 0.
 int stack_isempty(struct Stack *stack)
 {
+    if(stack->top == NULL){
+        return 1;
+    }
+    return 0;
 }
 
 // Delete the given stack
 void stack_delete(struct Stack *stack)
 {
+    struct StackNode *current = stack->top;
+
+    while (current != NULL) {
+        struct StackNode* todel = current;
+        current = current->next;
+        free(todel->string);
+        free(todel);
+    }
+
+    free(stack);
 }
 
 // Print a human-readable representation of the given list
 void stack_print(struct Stack *stack)
 {
+    struct StackNode *current = stack->top;
+    printf("[");
+    while (current != NULL) {
+        printf("%s,", current->string);
+        if (current->next != NULL) {
+            printf(", ");
+        }
+        current = current->next;
+
+    }
+    printf("]\n");
 }
 
 // Reverse the order of all elements (in this case strings) in the stack
@@ -464,6 +502,13 @@ void stack_print(struct Stack *stack)
 // each element onto a new stack.
 void stack_reverse(struct Stack* stack)
 {
+    struct Stack *reverse = stack_create();
+    struct StackNode *current = stack->top;
+    while (current != NULL) {
+        stack_push(reverse,stack_pop(stack));
+        current = current->next;
+    }
+    stack = reverse;
 }
 
 // Return a string which is the concatenation of the strings in the stack.
@@ -473,7 +518,20 @@ void stack_reverse(struct Stack* stack)
 // the returned string would be "top_middle_bottom".
 char * stack_join(struct Stack* stack, const char *delimiter)
 {
+    struct StackNode *current = stack->top;
+    while (current != NULL) {
+        char *first = malloc(strlen(current->string)+strlen(delimiter)+2);
+        strcpy(first, current->string);
+        strcat(first, delimiter);
+        current = current->next;
+    }
 }
+
+
+
+
+
+
 
 
 // Return the absolute file path. The caller is responsible for freeing

@@ -187,8 +187,8 @@ int list_pop(struct List *list, int *error)
 // Python: list.insert(0, value)
 void list_prepend(struct List *list, int value)
 {
-    struct ListNode *new;
-    struct ListNode *previous;
+    struct ListNode *new = malloc(sizeof(struct ListNode));
+    struct ListNode *previous = malloc(sizeof(struct ListNode));
     new->value = value;
     previous = list->first;
     list->first = new;
@@ -211,9 +211,10 @@ void list_insert(struct List *list, int index, int value)
     }
     else{
         struct ListNode *current = list->first;
-        struct ListNode *previous = NULL;
-        struct ListNode *new;
+        struct ListNode *previous =  malloc(sizeof(struct ListNode));
+        struct ListNode *new = malloc(sizeof(struct ListNode));
         new->value = value;
+        new->next = NULL;
 
         int i;
         for (i = 0; i < index; i++){
@@ -349,14 +350,24 @@ int dlist_get(struct DList *list, int index, int *error)
 // Python: list.append(value)
 void dlist_append(struct DList *dlist, int value)
 {
-    struct DListNode *new;
-    struct DListNode *previous;
+    struct DListNode *new = malloc(sizeof(struct DListNode));
+    new->next = NULL;
+    new->prev = NULL;
     new->value = value;
-    previous = dlist->last;
-    dlist->last = new;
-    previous->next = new;
-    new->prev = previous;
-    dlist->length +=1;
+    struct DListNode *previous;
+
+    if (dlist->first == NULL) {
+        dlist->first = new;
+        dlist->last = new;
+        dlist->length += 1;
+    }
+    else {
+        previous = dlist->last;
+        dlist->last = new;
+        previous->next = new;
+        new->prev = previous;
+        dlist->length += 1;
+    }
 }
 
 
@@ -526,20 +537,15 @@ char * stack_join(struct Stack* stack, const char *delimiter)
     }
     char *result = malloc(length);
 
+
     current = stack->top;
-    int counter = 0;
     while (current != NULL) {
-        if(counter % 2 == 0){
+        strcat(result, current->string);
+        if(current->next != NULL){
             strcat(result, delimiter);
-            current = current->next;
-            counter += 1;
-        }
-        else{
-            strcat(result,current->string);
-            current = current->next;
-            counter += 1;
         }
 
+        current = current->next;
     }
     return result;
 
@@ -560,7 +566,7 @@ char * stack_join(struct Stack* stack, const char *delimiter)
 // - "/home/user/../root" returns "/home/root"
 // - "/home/../../root" returns NULL
 // - "/home/../home/user" returns "/home/user"
-char * realpath(const char *path)
-{
-}
+//char * realpath(const char *path)
+//{
+//}
 

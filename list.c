@@ -519,12 +519,30 @@ void stack_reverse(struct Stack* stack)
 char * stack_join(struct Stack* stack, const char *delimiter)
 {
     struct StackNode *current = stack->top;
+    size_t length = 0;
     while (current != NULL) {
-        char *first = malloc(strlen(current->string)+strlen(delimiter)+2);
-        strcpy(first, current->string);
-        strcat(first, delimiter);
+        length += strlen(current->string)+1;
         current = current->next;
     }
+    char *result = malloc(length);
+
+    current = stack->top;
+    int counter = 0;
+    while (current != NULL) {
+        if(counter % 2 == 0){
+            strcat(result, delimiter);
+            current = current->next;
+            counter += 1;
+        }
+        else{
+            strcat(result,current->string);
+            current = current->next;
+            counter += 1;
+        }
+
+    }
+    return result;
+
 }
 
 

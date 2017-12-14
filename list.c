@@ -453,6 +453,7 @@ char * stack_pop(struct Stack *stack)
     struct StackNode *node = stack->top;
     char *val = malloc(strlen(node->string)+1);
     strcpy(val, node->string);
+
     if (stack_isempty(stack) == 1){
         return NULL;
     }
@@ -463,6 +464,7 @@ char * stack_pop(struct Stack *stack)
     }
     stack->top = node->next;
     free(node);
+
     return val;
 }
 
@@ -494,10 +496,14 @@ void stack_delete(struct Stack *stack)
 // Print a human-readable representation of the given list
 void stack_print(struct Stack *stack)
 {
+    if(stack_isempty(stack) == 1){
+        printf("Stack is empty\n");
+        return;
+    }
     struct StackNode *current = stack->top;
     printf("[");
     while (current != NULL) {
-        printf("%s,", current->string);
+        printf("%s", current->string);
         if (current->next != NULL) {
             printf(", ");
         }
@@ -515,11 +521,17 @@ void stack_reverse(struct Stack* stack)
 {
     struct Stack *reverse = stack_create();
     struct StackNode *current = stack->top;
+    int length = 0;
     while (current != NULL) {
-        stack_push(reverse,stack_pop(stack));
+        length += 1;
         current = current->next;
     }
-    stack = reverse;
+    for(int i = 0; i<length; i++){
+        stack_push(reverse, stack_pop(stack));
+    }
+    memcpy(&stack, &reverse, sizeof reverse);
+    printf("In functie: ");
+    stack_print(stack);
 }
 
 // Return a string which is the concatenation of the strings in the stack.
@@ -547,6 +559,7 @@ char * stack_join(struct Stack* stack, const char *delimiter)
 
         current = current->next;
     }
+    printf("%s\n", result);
     return result;
 
 }

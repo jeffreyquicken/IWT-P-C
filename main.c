@@ -144,6 +144,23 @@ int test_stack()
 	//Testing push
 	stack_push(stack, "test");
 	stack_push(stack, "stack");
+	stack_push(stack, "push");
+	stack_print(stack);
+	printf("-----Pop-----\n");
+	printf("%s\n",stack_pop(stack) );
+	printf("%s\n",stack_pop(stack) );
+	printf("%s\n",stack_pop(stack) );
+	stack_push(stack, "last");
+	stack_push(stack, "second");
+	stack_push(stack, "first");
+	stack_join(stack,"-");
+	printf("-----Reversing-----\n");
+	stack_print(stack);
+	stack_reverse(stack);
+	printf("In test: ");
+	stack_print(stack);
+
+
 	return 1;
 }
 

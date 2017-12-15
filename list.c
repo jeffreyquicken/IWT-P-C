@@ -578,7 +578,26 @@ char * stack_join(struct Stack* stack, const char *delimiter)
 // - "/home/user/../root" returns "/home/root"
 // - "/home/../../root" returns NULL
 // - "/home/../home/user" returns "/home/user"
-//char * realpath(const char *path)
-//{
-//}
+char * realpath(const char *path)
+{
+    struct Stack *stack = stack_create();
+    char *str = strcpy(str,path);
+    char *token = strtok(str, "/");
+    while( token != NULL ) {
+        if(stack_isempty(stack) == 1){
+            stack_push(stack, token);
+        }
+        else{
+            if(strcmp(token, "..") == 0 && stack_isempty(stack) != 1){
+                stack_pop(stack);
+                stack_push(stack,token);
+            }
+            else{
+                return NULL;
+            }
+        }
+        token = strtok(NULL, "/");
+    }
+
+}
 

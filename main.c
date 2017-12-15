@@ -168,10 +168,10 @@ int test_stack()
 }
 
 
-//int test_realpath()
-//{
-//	// Test 1
-//	char *path = realpath("/simple/test");
+int test_realpath()
+{
+	// Test 1
+	char *path = realpath("/simple/test");
 //	if (path == NULL || strcmp(path, "/simple/test") != 0)
 //		printf("Realpath failed on /simple/test/: %s\n", path);
 //	free(path);
@@ -198,8 +198,8 @@ int main(int argc, char *argv[])
 {
 //	test_list();
 //	test_dlist();
-	test_stack();
-//	test_realpath();
+//	test_stack();
+	test_realpath();
 
 	return 0;
 }

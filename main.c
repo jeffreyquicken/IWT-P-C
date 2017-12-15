@@ -154,11 +154,14 @@ int test_stack()
 	stack_push(stack, "second");
 	stack_push(stack, "first");
 	stack_join(stack,"-");
+	stack_print(stack);
 	printf("-----Reversing-----\n");
-	stack_print(stack);
+
+
 	stack_reverse(stack);
-	printf("In test: ");
+
 	stack_print(stack);
+
 
 
 	return 1;

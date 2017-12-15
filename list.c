@@ -450,13 +450,14 @@ void stack_push(struct Stack* stack, const char *string)
 // empty, the function returns NULL.
 char * stack_pop(struct Stack *stack)
 {
+    if (stack_isempty(stack) == 1){
+        return NULL;
+    }
     struct StackNode *node = stack->top;
     char *val = malloc(strlen(node->string)+1);
     strcpy(val, node->string);
 
-    if (stack_isempty(stack) == 1){
-        return NULL;
-    }
+
     if (stack->top->next == NULL){
         stack->top = NULL;
         free(node);
@@ -529,9 +530,7 @@ void stack_reverse(struct Stack* stack)
     for(int i = 0; i<length; i++){
         stack_push(reverse, stack_pop(stack));
     }
-    memcpy(&stack, &reverse, sizeof reverse);
-    printf("In functie: ");
-    stack_print(stack);
+    stack->top = reverse->top;
 }
 
 // Return a string which is the concatenation of the strings in the stack.

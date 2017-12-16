@@ -170,28 +170,35 @@ int test_stack()
 
 int test_realpath()
 {
-	// Test 1
-	char *path = realpath("/simple/test");
-//	if (path == NULL || strcmp(path, "/simple/test") != 0)
-//		printf("Realpath failed on /simple/test/: %s\n", path);
-//	free(path);
-//
-//	// Test 2
-//	path = realpath("/simple/test/../two");
-//	if (path == NULL || strcmp(path, "/simple/two") != 0)
-//		printf("Realpath failed on /simple/test/../two: %s\n", path);
-//	free(path);
-//
-//	// Test 3
-//	path = realpath("/simple/../../two");
-//	if (path != NULL)
-//		printf("Realpath failed on /simple/../../test: %s\n", path);
-//	free(path);
-//
-//	// TODO: Add more tests yourself!
-//
-//	return 1;
-//}
+//	// Test 1
+	char *path = realpat("/simple/test");
+	printf("%s\n", path);
+	if (path == NULL || strcmp(path, "/simple/test") != 0)
+		printf("Realpath failed on /simple/test/: %s\n", path);
+	free(path);
+
+	// Test 2
+	path = realpat("/simple/test/../two");
+	printf("%s\n", path);
+	if (path == NULL || strcmp(path, "/simple/two") != 0)
+		printf("Realpath failed on /simple/test/../two: %s\n", path);
+	free(path);
+
+	// Test 3
+	path = realpat("/simple/../../two");
+	printf("%s\n", path);
+	if (path != NULL)
+		printf("Realpath failed on /simple/../../test: %s\n", path);
+	free(path);
+
+	//test 4
+	path = realpat("/somedir/../home/user");
+	printf("%s\n", path);
+
+	// TODO: Add more tests yourself!
+
+	return 1;
+}
 
 
 int main(int argc, char *argv[])

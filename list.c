@@ -558,7 +558,6 @@ char * stack_join(struct Stack* stack, const char *delimiter)
 
         current = current->next;
     }
-    printf("%s\n", result);
     return result;
 
 }
@@ -578,26 +577,35 @@ char * stack_join(struct Stack* stack, const char *delimiter)
 // - "/home/user/../root" returns "/home/root"
 // - "/home/../../root" returns NULL
 // - "/home/../home/user" returns "/home/user"
-char * realpath(const char *path)
+char * realpat(const char *path)
 {
     struct Stack *stack = stack_create();
-    char *str = strcpy(str,path);
+    char *str = malloc(strlen(path)+1);
+    strcpy(str,path);
     char *token = strtok(str, "/");
     while( token != NULL ) {
-        if(stack_isempty(stack) == 1){
+        if(stack_isempty(stack) == 1 && strcmp(token, "..") != 0){
+            stack_push(stack, "/");
             stack_push(stack, token);
         }
         else{
-            if(strcmp(token, "..") == 0 && stack_isempty(stack) != 1){
+            if(strcmp(token, "..") == 0 && stack_isempty(stack) == 1){
+                return NULL;
+
+            }
+            if(strcmp(token, "..") == 0){
                 stack_pop(stack);
-                stack_push(stack,token);
+                stack_pop(stack);
+
             }
             else{
-                return NULL;
+                stack_push(stack, "/");
+                stack_push(stack,token);
             }
         }
         token = strtok(NULL, "/");
     }
-
+    stack_reverse(stack);
+    return stack_join(stack,"");
 }
 

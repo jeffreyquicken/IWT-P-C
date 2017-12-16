@@ -72,6 +72,6 @@ void stack_reverse(struct Stack* stack);
 char * stack_join(struct Stack* stack, const char *delimiter);
 
 
-char * realpath(const char *path);
+char * realpat(const char *path);
 
 

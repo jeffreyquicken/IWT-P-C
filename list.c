@@ -577,7 +577,7 @@ char * stack_join(struct Stack* stack, const char *delimiter)
 // - "/home/user/../root" returns "/home/root"
 // - "/home/../../root" returns NULL
 // - "/home/../home/user" returns "/home/user"
-char * realpat(const char *path)
+char * realpath(const char *path)
 {
     struct Stack *stack = stack_create();
     char *str = malloc(strlen(path)+1);
